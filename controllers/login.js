@@ -77,42 +77,45 @@ const Login=asynchandler(async(req,res)=>{
              to:found.email,
              subject:"Login",
              html:`
-            <!DOCTYPE html>
-     <html>
-     <head>
-         <meta charset="UTF-8">
-         <meta name="viewport" content="width=device-width, initial-scale=1">
-         <title>Email</title>
-         <style>
-             body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
-             .container { width: 100%; max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 10px;
-                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); overflow: hidden; }
-             .header { background-color: #007BFF; color: white; text-align: center; padding: 20px; font-size: 24px; font-weight: bold; }
-             .content { padding: 20px; color: #333; text-align: center; }
-             .content h1 { font-size: 28px; margin-bottom: 10px; color: #007BFF; }
-             .content p { font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
-             .footer { background-color: #007BFF; color: white; text-align: center; padding: 10px; font-size: 14px; }
-         </style>
-     </head>
-     <body>
-         <div class="container">
-             <div class="header">
-                 KS Bank
-             </div>
-             <div class="content">
-                 <h1>**Security Alert**</h1>
-                 <p>
-                Dear ${found.email}  
-                     Your account has been logged in on another device ${osname} ${osv} ${dev} If this was not you, please secure your account immediately by changing your password and enabling two-factor authentication.  
-                     
-                     For assistance, contact support.<tel>08134518265</tel></p>
-             </div>
-             <div class="footer">
-                 © 2024 KS Bank. All rights reserved.
-             </div>
-         </div>
-     </body>
-     </html>
+           <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Email</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .container { width: 100%; max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); overflow: hidden; }
+        .header { background-color: #007BFF; color: white; text-align: center; padding: 20px; font-size: 24px; font-weight: bold; }
+        .content { padding: 20px; color: #333; text-align: center; }
+        .content h1 { font-size: 28px; margin-bottom: 10px; color: #007BFF; }
+        .content p { font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
+        .footer { background-color: #007BFF; color: white; text-align: center; padding: 10px; font-size: 14px; };
+        tel{
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            KS Bank
+        </div>
+        <div class="content">
+            <h1>**Security Alert**</h1>
+            <div>
+        <p>   Dear ${found.email}  
+                Your account has been logged in on another device ${osname} ${osv} ${dev} If this was not you, please secure your account immediately by changing your password and enabling two-factor authentication.  
+            </p>
+               <span> For assistance contact support</span> <tel>08134518265</tel></div>
+        </div>
+        <div class="footer">
+            © 2024 KS Bank. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>
              `
             })
             

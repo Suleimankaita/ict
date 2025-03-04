@@ -175,7 +175,6 @@ const addTran = asynchandler(async (req, res) => {
     const lastTransId = latestTransaction?.transaction?.[0]?.transaction_id || 0;
     const newTransId = lastTransId + 1;
 
-    // Update user with new transaction
     const found = await User.findByIdAndUpdate(
         id,
         {
@@ -287,9 +286,8 @@ const addTran2 = asynchandler(async (req, res) => {
     found.transaction.push(newTransaction);
     await found.save(); // Save the updated document
 
-    // Emit real-time updates
     req.io.emit("transactionUpdates", found);
-    req.io.emit("notify", newTransaction); // Send only the last transaction
+    req.io.emit("notify", newTransaction); 
 
     console.log("Latest Transaction:", newTransaction);
 
