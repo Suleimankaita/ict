@@ -68,7 +68,7 @@ mongoose.connection.once('open', () => {
     const server = app.listen(Port, () => console.log("Listening on " + Port));
 
     const io = new Server(server, {
-        cors: { origin: ["http://localhost:5173","http://172.20.10.3:5173"], methods: ["GET", "POST"] }
+        cors: { origin: ["http://localhost:5173","http://172.20.10.3:5173","https://KS_banks.onrender.com","https://ks-banks-7cpz.onrender.com"], methods: ["GET", "POST"] }
     });
 
     const connectedClients = new Set();
