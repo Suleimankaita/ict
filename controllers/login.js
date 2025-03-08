@@ -10,6 +10,7 @@ const Login = asynchandler(async (req, res) => {
     const osname = os.hostname();
     const { email, password } = req.body;
 
+    
     if (!email || !password) {
         return res.status(400).json({ message: "All fields are required" });
     }
@@ -63,7 +64,7 @@ const Login = asynchandler(async (req, res) => {
     res.cookie("jwt", refreshtoken, {
         httpOnly: true,
         secure: true,
-        sameSite: "Strict",
+        sameSite: "none",
         maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
