@@ -160,10 +160,10 @@ const addTran = asynchandler(async (req, res) => {
     if (!id) return res.status(400).json({ "message": "Insufficient funds" });
 
     let setamount;
-    if (amount && !addamount) {
-        setamount = -amount;
-    } else if (!amount && addamount) {
+    if(!amount && addamount ) {
         setamount = addamount;
+    } else if (amount && !addamount) {
+        setamount = -amount;
     } else {
         return res.status(400).json({ "message": "Invalid transaction data" });
     }
