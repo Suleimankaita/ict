@@ -30,6 +30,7 @@ const corsOptions = {
             callback(new Error("Not allowed by CORS"));
         }
     },
+    allowedHeaders: ["Content-Type", "Authorization","authorization"],
     credentials: true, // Allows cookies and authentication
     optionsSuccessStatus: 200, // Prevents CORS errors in older browsers
 };
