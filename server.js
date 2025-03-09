@@ -77,7 +77,12 @@ app.use('/Loan', require('./routes/Loan'));
 app.use('/forget', require('./routes/forget'));
 app.use('/reset', require('./routes/reset'));
 
-app.use('/refresh', require('./routes/refresh'));
+app.use('/refresh', (req, res, next) => {
+    res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.header("Pragma", "no-cache");
+    res.header("Expires", "0");
+    next();
+}, require('./routes/refresh'));
 
 mongoose.connection.once('open', () => {
     console.log("Connected to DB");
