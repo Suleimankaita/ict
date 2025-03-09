@@ -28,7 +28,7 @@ app.use(
     cors({
         origin: allowedOrigins,
         credentials: true,
-        allowedHeaders: ["Content-Type", "Authorization", "Expires", "Cache-Control", "Pragma"],
+        allowedHeaders: ["Content-Type", "authorization", "Expires", "Cache-Control", "Pragma"],
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     })
 );
@@ -51,7 +51,7 @@ app.options("*", (req, res) => {
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const storage = multer.diskStorage({
