@@ -34,7 +34,7 @@ const refresh = asynchandler(async (req, res) => {
             { expiresIn: "10m" }
         );
 
-        res.status(201).json({ accessToken: accesstoken });
+        res.status(201).json( accesstoken );
     });
 });
 
