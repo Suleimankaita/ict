@@ -137,19 +137,47 @@ const os = require('os');
 
 console.log(os.type(), os.hostname(), os.version());
 
-app.use(cors(opt));
+const allowedOrigins = [
+    "http://localhost:5173",
+    "http://172.20.10.3:5173",
+    "https://KS_banks.onrender.com",
+    "https://ks-banks-7cpz.onrender.com"
+];
+
+app.use(
+    cors({
+        origin: allowedOrigins,
+        credentials: true,
+        allowedHeaders: ["Content-Type", "Authorization", "Expires", "Cache-Control", "Pragma"],
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    })
+);
+
+// ✅ Handle Preflight Requests
+app.options("*", (req, res) => {
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.header("Access-Control-Allow-Origin", origin);
+        res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Expires, Cache-Control, Pragma");
+        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        return res.sendStatus(200);
+    }
+    return res.sendStatus(403);
+});
+
+// app.use(cors(opt));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ✅ Global Middleware to Prevent Caching
-app.use((req, res, next) => {
-    res.header("Cache-Control", "no-cache, no-store, must-revalidate");
-    // res.header("Pragma", "no-cache");
-    res.header("Expires", "0");
-    next();
-});
+// app.use((req, res, next) => {
+//     res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+//     // res.header("Pragma", "no-cache");
+//     res.header("Expires", "0");
+//     next();
+// });
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
