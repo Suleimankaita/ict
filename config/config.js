@@ -33,8 +33,10 @@ const corsOptions = {
     allowedHeaders: [
         "Content-Type",
         "Authorization",
-        "authorization"
-    ],
+        "Expires",   // ✅ Allow 'Expires' header
+        "X-Requested-With",
+        "Accept"
+      ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // ✅ Ensure all methods are allowed
     exposedHeaders: ["Authorization"], // ✅ Ensures client can access Authorization header
     optionsSuccessStatus: 200, // ✅ Prevents CORS errors in older browsers

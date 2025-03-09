@@ -24,7 +24,7 @@
 const asynchandler=require("express-async-handler");
 const jwt=require("jsonwebtoken")
 
-const verify=asynchandler(async(req,res,next)=>{
+const verify=(req,res,next)=>{
     
     const auth=req.headers.authorization||req.headers.Authorization
 
@@ -43,6 +43,6 @@ const verify=asynchandler(async(req,res,next)=>{
         })   
     )
 
-})
+}
 
 module.exports=verify
