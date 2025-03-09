@@ -51,7 +51,7 @@ app.options("*", (req, res) => {
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const storage = multer.diskStorage({
