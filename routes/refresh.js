@@ -1,9 +1,16 @@
-const verify=require("../middleware/verify")
-const refresh=require("../controllers/refresh")
-const express=require("express");
-const Router=express()
+const verify = require("../middleware/verify")
+const refresh = require("../controllers/refresh")
+const express = require("express");
+const Router = express()
+
+// Middleware to set CORS headers
+Router.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 Router.route('/')
 .get(refresh)
 // .post(logout)
-module.exports=Router;
+module.exports = Router;

@@ -7,14 +7,14 @@ const refresh = asynchandler(async (req, res) => {
 
     // ✅ Fix: Return JSON response if no refresh token is found
     if (!cookies?.jwt) {
-        return res.status(403).json({ message: "No refresh token found" });
+        return res.status(401).json({ message: "No refresh token found" });
     }
 
     const token = cookies.jwt;
 
     jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, decode) => {
         if (err) {
-            return res.sendStatus(403);
+            return res.sendStatus(401);
         }
 
         console.log(decode);

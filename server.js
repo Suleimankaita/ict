@@ -81,6 +81,8 @@ app.use('/refresh', (req, res, next) => {
     res.header("Cache-Control", "no-cache, no-store, must-revalidate");
     res.header("Pragma", "no-cache");
     res.header("Expires", "0");
+    // ✅ Allow cookies to be sent with the request
+    res.header("Access-Control-Allow-Credentials", "true");
     next();
 }, require('./routes/refresh'));
 
