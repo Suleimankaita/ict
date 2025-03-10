@@ -28,6 +28,8 @@ app.use(
     cors({
         origin: allowedOrigins,
         credentials: true,
+    optionsSuccessStatus: 200, // ✅ Prevents CORS errors in older browsers
+
         allowedHeaders: ["Content-Type", "authorization", "Expires", "Cache-Control", "Pragma"],
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     })
