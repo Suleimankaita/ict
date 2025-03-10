@@ -1,88 +1,22 @@
-// const jwt = require("jsonwebtoken");
-// const User = require("../model/Reg");
-// const asynchandler = require("express-async-handler");
+const jwt = require('jsonwebtoken');
+const { TokenExpiredError } = jwt;
+const refreshTokens = []; // This should be replaced with a proper storage mechanism
 
-// const refresh = asynchandler(async (req, res) => {
-//     const cookies = req.cookies;
-
-//     // ✅ Fix: Return JSON response if no refresh token is found
-//     if (!cookies?.jwt) {
-//         return res.status(401).json({ message: "No refresh token found" });
-//     }
-
-//     const token = cookies.jwt;
-
-//     jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, decode) => {
-//         if (err) {
-//             return res.sendStatus(401);
-//         }
-
-//         console.log(decode);
-
-//         const accesstoken = jwt.sign(
-//             {
-//                 "UserInfo": {
-//                     "id": decode.UserInfo.id,
-//                     "account": decode.UserInfo.account,
-//                     "username": decode.UserInfo.username,
-//                     "password": decode.UserInfo.password,
-//                     "Roles": decode.UserInfo.Roles,
-//                     "update": decode.UserInfo.update,
-//                 }
-//             },
-//             process.env.ACCESS_TOKEN_SECRET,
-//             { expiresIn: "10m" }
-//         );
-
-//         res.status(201).json( accesstoken );
-//     });
-// });
-
-// module.exports = refresh;
-
-const jwt = require("jsonwebtoken");
-const User = require("../model/Reg");
-const asyncHandler = require("express-async-handler");
-
-const refresh = asyncHandler(async (req, res) => {
-    const cookies = req.cookies;
-
-    // ✅ Ensure refresh token exists
-    if (!cookies?.jwt) {
-        return res.status(401).json({ message: "No refresh token found" });
+const refresh = (req, res) => {
+  const { token } = req.body;
+  if (!token) {
+    return res.sendStatus(401);
+  }
+  if (!refreshTokens.includes(token)) {
+    return res.sendStatus(403);
+  }
+  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) {
+      return res.sendStatus(403);
     }
-
-    const refreshToken = cookies.jwt;
-
-    // ✅ Verify the refresh token
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ message: "Invalid refresh token" }); // 403 Forbidden for invalid tokens
-        }
-
-        // ✅ Fetch user from DB to ensure token is valid
-        const user = await User.findById(decoded.UserInfo.id);
-        if (!user) {
-            return res.status(403).json({ message: "User not found" });
-        }
-
-        // ✅ Create new access token without storing sensitive data (No password)
-        const accessToken = jwt.sign(
-            {
-                UserInfo: {
-                    id: user._id,
-                    account: user.account,
-                    username: user.username,
-                    Roles: user.Roles, // Ensure roles are correct
-                    update: user.updatedAt,
-                }
-            },
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "10m" }
-        );
-
-        res.status(200).json({ accessToken }); // ✅ Return as object
-    });
-});
+    const accessToken = jwt.sign({ name: user.name }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+    res.json(accessToken );
+  });
+};
 
 module.exports = refresh;
