@@ -1,22 +1,41 @@
-const jwt = require('jsonwebtoken');
-const { TokenExpiredError } = jwt;
-const refreshTokens = []; // This should be replaced with a proper storage mechanism
+const jwt = require("jsonwebtoken");
+const User = require("../model/Reg");
+const asynchandler = require("express-async-handler");
 
-const refresh = (req, res) => {
-  const { token } = req.body;
-  if (!token) {
-    return res.sendStatus(401);
-  }
-  if (!refreshTokens.includes(token)) {
-    return res.sendStatus(403);
-  }
-  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-    if (err) {
-      return res.sendStatus(403);
+const refresh = asynchandler(async (req, res) => {
+    const cookies = req.cookies;
+
+    // ✅ Fix: Return JSON response if no refresh token is found
+    if (!cookies?.jwt) {
+        return res.status(401).json({ message: "No refresh token found" });
     }
-    const accessToken = jwt.sign({ name: user.name }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
-    res.json(accessToken );
-  });
-};
+
+    const token = cookies.jwt;
+
+    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, decode) => {
+        if (err) {
+            return res.sendStatus(401);
+        }
+
+        console.log(decode);
+
+        const accesstoken = jwt.sign(
+            {
+                "UserInfo": {
+                    "id": decode.UserInfo.id,
+                    "account": decode.UserInfo.account,
+                    "username": decode.UserInfo.username,
+                    "password": decode.UserInfo.password,
+                    "Roles": decode.UserInfo.Roles,
+                    "update": decode.UserInfo.update,
+                }
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: "10m" }
+        );
+
+        res.status(201).json( accesstoken );
+    });
+});
 
 module.exports = refresh;
