@@ -21,7 +21,8 @@ const allowedOrigins = [
     "http://localhost:5173",
     "http://172.20.10.3:5173",
     "https://KS_banks.onrender.com",
-    "https://ks-banks-7cpz.onrender.com"
+    "https://ks-banks-7cpz.onrender.com",
+    "https://man-react-suleimankaitas-projects.vercel.app"
 ];
 
 app.use(
@@ -94,7 +95,7 @@ mongoose.connection.once('open', () => {
     const server = app.listen(Port, () => console.log("Listening on " + Port));
 
     const io = new Server(server, {
-        cors: { origin: ["http://localhost:5173", "http://172.20.10.3:5173", "https://KS_banks.onrender.com", "https://ks-banks-7cpz.onrender.com"], methods: ["GET", "POST"] }
+        cors: { origin: ["http://localhost:5173", "http://172.20.10.3:5173", "https://KS_banks.onrender.com","https://man-react-suleimankaitas-projects.vercel.app", "https://ks-banks-7cpz.onrender.com"], methods: ["GET", "POST"] }
     });
 
     const connectedClients = new Set();
