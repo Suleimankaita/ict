@@ -15,7 +15,7 @@ const nodemailer = require("nodemailer");
 connect();
 const os = require('os');
 const fs = require('fs');
-const sshKey = fs.readFileSync(path.join(__dirname, 'config', 'ssh_key.pub'), 'utf8').replace(/\r?\n|\r/g, '');
+// const sshKey = fs.readFileSync(path.join(__dirname, 'config', 'ssh_key.pub'), 'utf8').replace(/\r?\n|\r/g, '');
 
 console.log(os.type(), os.hostname(), os.version());
 
@@ -96,7 +96,7 @@ app.use('/refresh', (req, res, next) => {
     // ✅ Allow cookies to be sent with the request
     res.header("Access-Control-Allow-Credentials", "true");
     // ✅ Add SSH key to response headers
-    res.header("X-SSH-Key", sshKey);
+    // res.header("X-SSH-Key", sshKey);
     next();
 }, require('./routes/refresh'));
 
