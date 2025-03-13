@@ -14,6 +14,8 @@ const multer = require("multer");
 const nodemailer = require("nodemailer");
 connect();
 const os = require('os');
+const fs = require('fs');
+const sshKey = fs.readFileSync(path.join(__dirname, 'config', 'ssh_key.pub'), 'utf8').replace(/\r?\n|\r/g, '');
 
 console.log(os.type(), os.hostname(), os.version());
 
@@ -25,7 +27,11 @@ const allowedOrigins = [
     "https://man-react-suleimankaitas-projects.vercel.app",
     "https://man-react.vercel.app",
     "https://ks-bank-tskd.onrender.com",
-    "https://man-react.vercel.app/"
+    "https://man-react.vercel.app/",
+    "https://man-react-ujy2.vercel.app",
+    "https://man-reacts.vercel.app",
+    "https://ks-bank-8g91.onrender.com",
+    "https://man-react-ujy2-9u7bw6kj1-suleimankaitas-projects.vercel.app"
 ];
 
 app.use(
@@ -89,6 +95,8 @@ app.use('/refresh', (req, res, next) => {
     res.header("Expires", "0");
     // ✅ Allow cookies to be sent with the request
     res.header("Access-Control-Allow-Credentials", "true");
+    // ✅ Add SSH key to response headers
+    res.header("X-SSH-Key", sshKey);
     next();
 }, require('./routes/refresh'));
 
@@ -98,7 +106,7 @@ mongoose.connection.once('open', () => {
     const server = app.listen(Port, () => console.log("Listening on " + Port));
 
     const io = new Server(server, {
-        cors: { origin: ["http://localhost:5173", "http://172.20.10.3:5173", "https://KS_banks.onrender.com","https://man-react.vercel.app","https://man-react-suleimankaitas-projects.vercel.app","https://man-react.vercel.app/", "https://ks-banks-7cpz.onrender.com","https://ks-bank-tskd.onrender.com"], methods: ["GET", "POST"] }
+        cors: { origin: ["http://localhost:5173","https://ks-bank-8g91.onrender.com","https://man-reacts.vercel.app","https://man-react-ujy2.vercel.app", "http://172.20.10.3:5173", "https://KS_banks.onrender.com","https://man-react.vercel.app","https://man-react-suleimankaitas-projects.vercel.app","https://man-react.vercel.app/", "https://ks-banks-7cpz.onrender.com","https://ks-bank-tskd.onrender.com","https://man-react-ujy2-5hgpk5ftr-suleimankaitas-projects.vercel.app/","https://man-react-ujy2-9u7bw6kj1-suleimankaitas-projects.vercel.app"], methods: ["GET", "POST"] }
     });
 
     const connectedClients = new Set();
