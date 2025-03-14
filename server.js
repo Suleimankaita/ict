@@ -49,7 +49,7 @@ app.use(
 app.options("*", (req, res) => {
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
-        res.header("Access-Control-Allow-Origin", origin);
+        res.header("Access-Control-Allow-Origin", true);
         res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Expires, Cache-Control, Pragma");
         res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         // ✅ Prevent iOS Caching Issues
