@@ -14,7 +14,7 @@ const refresh = asynchandler(async (req, res) => {
 
     jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, async (err, decode) => {
         if (err) {
-            return res.sendStatus(401);
+            return res.sendStatus(403);
         }
 
         console.log(decode);

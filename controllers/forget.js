@@ -64,7 +64,7 @@ const forget=asynchandler(async(req,res)=>{
             <div>
                 <p>
            Dear ${found.email}  
-               For security reasons, we cannot divrovide your old password. However, we can send you a link to reset your password. Please click the link below to create a new </p>password: <a href=http://localhost:5173/reset/${found._id}><button>reset</button></a>
+               For security reasons, we cannot divrovide your old password. However, we can send you a link to reset your password. Please click the link below to create a new </p>password: <a href=https://ks-bank-8g91.onrender.com/reset/${found._id}><button>reset</button></a>
                 
                 For assistance, contact support.<tel>08134518265</tel></div>
         </div>

@@ -160,13 +160,17 @@ const addTran = asynchandler(async (req, res) => {
     if (!id) return res.status(400).json({ "message": "Insufficient funds" });
 
     let setamount;
-    if(!amount && addamount ) {
-        setamount = addamount;
-    } else if (amount && !addamount) {
+    if(amount && !addamount ) {
         setamount = -amount;
+       
+    } else if (!amount && addamount) {
+
+        setamount = addamount;
+        // setamount = -amount;
     } else {
         return res.status(400).json({ "message": "Invalid transaction data" });
     }
+    console.log(-amount)
 
     const latestTransaction = await User.findOne({}, { transaction: { $slice: -1 } })
         .sort({ "transaction.transaction_id": -1 })
@@ -180,7 +184,7 @@ const addTran = asynchandler(async (req, res) => {
         {
             "$push": {
                 transaction: {
-                    amount: setamount,
+                    amount:-amount,
                     date: new Date().toISOString().split("T")[0],
                     time: new Date().toLocaleTimeString(),
                     transaction_id: newTransId,
@@ -263,6 +267,8 @@ const addTran2 = asynchandler(async (req, res) => {
     if (setamount === undefined) {
         return res.status(400).json({ "message": "Invalid transaction amount" });
     }
+    console.log(setamount)
+
 
     const found = await User.findOne({ account_no: req.params.id }).exec();
 
