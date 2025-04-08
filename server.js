@@ -41,7 +41,7 @@ app.use(
     optionsSuccessStatus: 200, // ✅ Prevents CORS errors in older browsers
 
         allowedHeaders: ["Content-Type", "authorization", "Expires", "Cache-Control", "Pragma"],
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH" ,"OPTIONS"]
     })
 );
 
@@ -51,7 +51,7 @@ app.options("*", (req, res) => {
     if (allowedOrigins.includes(origin)) {
         res.header("Access-Control-Allow-Origin", true);
         res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Expires, Cache-Control, Pragma");
-        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
         // ✅ Prevent iOS Caching Issues
         res.header("Cache-Control", "no-cache, no-store, must-revalidate");
         res.header("Pragma", "no-cache");
